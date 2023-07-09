@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Box, Heading, Text, Radio, RadioGroup, Button, CircularProgress } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import quizData from "./QuizQuestions";
 
-const Quiz = ({ numQuestions, time }) => {
+const Quiz = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { numQuestions, timeLimit } = location.state;
+  
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState("");
   const [score, setScore] = useState(0);
   const [isQuizOver, setIsQuizOver] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(time * 60);
-  const navigate = useNavigate();
+  const [timeLeft, setTimeLeft] = useState(timeLimit * 60);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -94,7 +97,7 @@ const Quiz = ({ numQuestions, time }) => {
             Time Left: {displayTime()}
           </Text>
           <CircularProgress
-            value={Math.floor((timeLeft / (time * 60)) * 100)}
+            value={Math.floor((timeLeft / (timeLimit * 60)) * 100)}
             size="120px"
             mt={4}
             mx="auto"
