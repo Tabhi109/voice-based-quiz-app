@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Box, Button, FormControl, FormLabel, Select } from "@chakra-ui/react";
+import { Box, FormControl, FormLabel, Select, Button } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const Modal = ({ onClose }) => {
+  const navigate = useNavigate();
   const [numQuestions, setNumQuestions] = useState("");
   const [timeLimit, setTimeLimit] = useState("");
 
@@ -14,15 +16,18 @@ const Modal = ({ onClose }) => {
   };
 
   const handleSubmit = () => {
-    // Logic to handle form submission
-    // Redirect to Quiz.js or perform any other actions
+    // Close the modal
+    onClose();
+
+    // Redirect to Quiz.js with the selected number of questions and time limit
+    navigate("/quiz", { state: { numQuestions, timeLimit } });
   };
 
   return (
     <Box p={4}>
       <FormControl mb={4}>
         <FormLabel>How many questions do you want to set up in your quiz?</FormLabel>
-        <Select value={numQuestions} onChange={handleNumQuestionsChange}>
+        <Select value={numQuestions} onChange={handleNumQuestionsChange} color="black">
           <option value="10">10</option>
           <option value="20">20</option>
           <option value="30">30</option>
@@ -30,7 +35,7 @@ const Modal = ({ onClose }) => {
       </FormControl>
       <FormControl mb={4}>
         <FormLabel>How much time do you want to set up for this quiz?</FormLabel>
-        <Select value={timeLimit} onChange={handleTimeLimitChange}>
+        <Select value={timeLimit} onChange={handleTimeLimitChange} color="black">
           <option value="10">10 min</option>
           <option value="20">20 min</option>
           <option value="30">30 min</option>
