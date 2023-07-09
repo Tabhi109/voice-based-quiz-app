@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     alanBtn({
-      key: 'YOUR_ALAN_AI_API_KEY',
+      key: '44fc86e8f2933fe0456f47e21fb0ce962e956eca572e1d8b807a3e2338fdd0dc/stage',
       onCommand: (commandData) => {
         if (commandData.command === 'startQuiz') {
           setIsModalOpen(true);
@@ -36,10 +36,7 @@ function App() {
       <ChakraProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/quiz"
-            element={<QuizPage quizData={quizData} />}
-          />
+          <Route path="/quiz" element={<QuizPage quizData={quizData} />} />
         </Routes>
         {isModalOpen && <Modal onClose={handleCloseModal} onStartQuiz={handleStartQuiz} />}
       </ChakraProvider>

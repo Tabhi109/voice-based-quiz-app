@@ -7,7 +7,7 @@ const Quiz = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { numQuestions, timeLimit } = location.state;
-  
+
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState("");
   const [score, setScore] = useState(0);
@@ -71,8 +71,8 @@ const Quiz = () => {
       {isQuizOver ? (
         <>
           <Text>Your score: {displayScore()}%</Text>
-          <Button colorScheme="teal" variant="solid" onClick={handleFinishQuiz}>
-            Finish
+          <Button colorScheme="teal" variant="solid" onClick={() => navigate("/")}>
+            Go to Home
           </Button>
         </>
       ) : (
@@ -93,9 +93,7 @@ const Quiz = () => {
           >
             Next
           </Button>
-          <Text mt={4}>
-            Time Left: {displayTime()}
-          </Text>
+          <Text mt={4}>Time Left: {displayTime()}</Text>
           <CircularProgress
             value={Math.floor((timeLeft / (timeLimit * 60)) * 100)}
             size="120px"
