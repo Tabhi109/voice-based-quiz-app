@@ -8,20 +8,27 @@ import Modal from "./components/Modal";
 import { ChakraProvider } from "@chakra-ui/react";
 
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [quizData, setQuizData] = useState(null);
+
   useEffect(() => {
     alanBtn({
-      key: '44fc86e8f2933fe0456f47e21fb0ce962e956eca572e1d8b807a3e2338fdd0dc/stage',
+      key: 'YOUR_ALAN_AI_API_KEY',
       onCommand: (commandData) => {
         if (commandData.command === 'startQuiz') {
-          // Your logic for starting the quiz
+          setIsModalOpen(true);
         }
       },
     });
   }, []);
-  const [quizConfig, setQuizConfig] = useState(null);
 
-  const handleStartQuiz = (numQuestions, timeLimit) => {
-    setQuizConfig({ numQuestions, timeLimit });
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleStartQuiz = (data) => {
+    setQuizData(data);
+    setIsModalOpen(false);
   };
 
   return (
@@ -29,9 +36,12 @@ function App() {
       <ChakraProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/quiz" element={<QuizPage quizConfig={quizConfig} />} />
+          <Route
+            path="/quiz"
+            element={<QuizPage quizData={quizData} />}
+          />
         </Routes>
-        <Modal onStartQuiz={handleStartQuiz} />
+        {isModalOpen && <Modal onClose={handleCloseModal} onStartQuiz={handleStartQuiz} />}
       </ChakraProvider>
     </Router>
   );
@@ -44,10 +54,14 @@ const Home = () => (
   </>
 );
 
-const QuizPage = ({ quizConfig }) => (
+const QuizPage = ({ quizData }) => (
   <>
     <Header />
-    <Quiz quizConfig={quizConfig} />
+    {quizData ? (
+      <Quiz numQuestions={quizData.numQuestions} timeLimit={quizData.timeLimit} />
+    ) : (
+      <p>Loading quiz...</p>
+    )}
   </>
 );
 

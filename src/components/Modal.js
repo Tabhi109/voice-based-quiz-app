@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, FormControl, FormLabel, Select, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-const Modal = ({ onClose }) => {
+const Modal = ({ onClose, onStartQuiz }) => {
   const navigate = useNavigate();
   const [numQuestions, setNumQuestions] = useState("");
   const [timeLimit, setTimeLimit] = useState("");
@@ -19,8 +19,8 @@ const Modal = ({ onClose }) => {
     // Close the modal
     onClose();
 
-    // Redirect to Quiz.js with the selected number of questions and time limit
-    navigate("/quiz", { state: { numQuestions, timeLimit } });
+    // Pass the selected number of questions and time limit to the parent component
+    onStartQuiz({ numQuestions, timeLimit });
   };
 
   return (
